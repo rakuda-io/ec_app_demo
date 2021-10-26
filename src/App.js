@@ -1,7 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { signInAction, signOutAction } from './reducks/users/actions';
 
 function App() {
+  //Dispatchメソッドを直接記述出来ないので一度dispatchという定数に入れて使用
+  const dispatch = useDispatch();
+  const selector = useSelector((state) => state)
+
+  console.log(selector.users)
+
   return (
     <div className="App">
       <header className="App-header">
@@ -17,6 +25,11 @@ function App() {
         >
           Learn React
         </a>
+        <button onClick={
+          () => dispatch(signInAction({uid: "0001", username: "Yuki Kubota"}))
+        }>
+          Sign In
+        </button>
       </header>
     </div>
   );

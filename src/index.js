@@ -1,13 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import createStore from './reducks/store/store';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+//store.jsの中でcombineReducerしたstoreの情報をstore定数に代入しexport
+export const store = createStore();
+
 ReactDOM.render(
-  <React.StrictMode>
+  //Providerのstore propsに上記の定数storeを渡す
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 
