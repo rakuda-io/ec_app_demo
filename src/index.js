@@ -1,18 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
 import createStore from './reducks/store/store';
+import * as History from 'history';
 import './index.css';
-import App from './App';
+import App from './App.jsx';
 import reportWebVitals from './reportWebVitals';
 
+const history = History.createBrowserHistory();
 //store.jsの中でcombineReducerしたstoreの情報をstore定数に代入しexport
-export const store = createStore();
+export const store = createStore(history);
 
 ReactDOM.render(
   //Providerのstore propsに上記の定数storeを渡す
   <Provider store={store}>
-    <App />
+    <ConnectedRouter history={history}>
+      <App />
+    </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
 );
