@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import ImageArea from '../components/products/ImageArea';
+import SetSizeArea from '../components/products/SetSizeArea';
 import { TextInput, SelectBox, PrimaryButton } from '../components/UIkit';
 import { db } from '../firebase';
 import { saveProduct } from '../reducks/products/operations';
@@ -19,7 +20,8 @@ const ProductEdit = (props) => {
         [category, setCategory] = useState(""),
         [gender, setGender] = useState(""),
         [price, setPrice] = useState(""),
-        [images, setImages] =useState([]);
+        [images, setImages] =useState([]),
+        [sizes, setSizes] = useState([]);
 
   const inputName = useCallback((event) => {
     setName(event.target.value)
@@ -48,14 +50,15 @@ const ProductEdit = (props) => {
     if (id !== "") {
       db.collection('products').doc(id).get()
         .then(snapshot => {
-          const data = snapshot.data()
-          console.log(data)
-          setImages(data.images)
-          setName(data.name)
-          setDescription(data.description)
-          setCategory(data.category)
-          setGender(data.gender)
-          setPrice(data.price)
+          const data = snapshot.data();
+          console.log(data);
+          setImages(data.images);
+          setName(data.name);
+          setDescription(data.description);
+          setCategory(data.category);
+          setGender(data.gender);
+          setPrice(data.price);
+          setSizes(data.sizes);
         })
     }
   }, [id]);
@@ -83,11 +86,13 @@ const ProductEdit = (props) => {
           fullWidth={true} label={"価格"} multiline={false} required={true}
           onChange={inputPrice} rows={1} value={price} type={"number"}
         />
-        <div className="module-spacer--medium" />
+        <div className="module-spacer--small" />
+        <SetSizeArea sizes={sizes} setSizes={setSizes} />
+        <div className="module-spacer--small" />
         <div className="center">
           <PrimaryButton
             label={"商品情報を保存"}
-            onClick={() => dispatch(saveProduct(id, name, description, category, gender, price, images))}
+            onClick={() => dispatch(saveProduct(id, name, description, category, gender, price, images, sizes))}
           />
         </div>
       </div>
